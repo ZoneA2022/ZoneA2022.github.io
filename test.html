@@ -15,6 +15,11 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        tr {
+            font-family: "Rhythm";
+            font-size: 3em;
+        }
+
         .rhy {
             font-family: "Rhythm";
             font-size: 3em;
@@ -56,7 +61,7 @@
         const grid = generateGrid();
         const table = document.getElementById("number-grid");
         for (let i = 0; i < 4; i++) {
-            const tr = document.createElement("tr class="rhy""");
+            const tr = document.createElement("tr");
             for (let j = 0; j < 4; j++) {
                 const td = document.createElement("td");
                 td.textContent = grid[i][j];
