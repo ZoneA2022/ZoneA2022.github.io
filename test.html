@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Random Number Generator</title>
+    <style>
+        #number-grid {
+            margin-top: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Random Number Generator</h1>
+    <p><button onclick="location.reload()">Restart</button></p>
+    <table id="number-grid"></table>
+
+    <script>
+        // Function to generate a 4x4 grid of random numbers between 1 and 8
+        function generateGrid() {
+            // Create a 2D array to store the grid values
+            const grid = Array.from({ length: 4 }, () => Array(4).fill(0));
+
+            // Fill each cell in the grid with a random number between 1 and 8
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    grid[i][j] = Math.floor(Math.random() * 8) + 1;
+                }
+            }
+
+            return grid;
+        }
+
+        // Generate the grid and insert it into the HTML table
+        const grid = generateGrid();
+        const table = document.getElementById("number-grid");
+        for (let i = 0; i < 4; i++) {
+            const tr = document.createElement("tr");
+            for (let j = 0; j < 4; j++) {
+                const td = document.createElement("td");
+                td.textContent = grid[i][j];
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+    </script>
+</body>
+
+</html>
