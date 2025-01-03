@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythmgenerator</title>
+    <title>Albi's Rhythm Generator 2025</title>
     <style>
         @font-face {
             font-family: "Rhythm";
@@ -16,53 +16,120 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        table {
+            border-collapse: collapse;
+            padding: 0px;
+
+
+        }
+
+        tr {
+            font-family: "Rhythm";
+            font-size: 5rem;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 10px;
+        }
+
+        td {
+            border-collapse: collapse;
+            border: 0;
+            text-align: left;
+            padding: 0;
+        }
+
         .rhy {
             font-family: "Rhythm";
             font-size: 3em;
         }
 
         label {
-            margin-left: 10px;
+            margin-left: 5px;
+            margin-bottom: 10px;
         }
 
         button {
-            margin-left: 100px;
+            margin-left: 550px;
         }
     </style>
+
 </head>
 
 <body>
-    <h1>Rhythmgenerator 1.0.1</h1>
-    <h2>15.02.2024</h2>
-    <label for="min">Min:</label>
-    <select name="min" id="min">>
-        <option value=1>1</option>
-        <option value=2>2</option>
-        <option value=3>3</option>
-        <option value=4>4</option>
-        <option value=5>5</option>
-        <option value=6>6</option>
-        <option value=7>7</option>
-        <option value=8>8</option>
+    <h1>Albi's Rhythm Generator 2025</h1>
+    <p><button onclick="location.reload()">Restart</button></p>
+    <label for="min-value">Min Value:</label>
+    <select id="min-value">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
     </select>
-    <label for="max">Max:</label>
-    <select name="max" id="max">>
-        <option value=1>1</option>
-        <option value=2>2</option>
-        <option value=3>3</option>
-        <option value=4>4</option>
-        <option value=5>5</option>
-        <option value=6>6</option>
-        <option value=7>7</option>
-        <option value=8>8</option>
+
+    <label for="max-value">Max Value:</label>
+    <select id="max-value">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8" selected>8</option>
     </select>
-    <button type="button">Generate</button>
-    <div class="rhy">
-        <p>1234</p>
-        <p>5678</p>
-        <p>8765</p>
-        <p>4321</p>
-    </div>
+    <p></p>
+    <table id="number-grid" border="0"></table>
+
+    <script>
+        function generateGrid(min, max) {
+            const grid = Array.from({ length: 4 }, () => Array(4).fill(0));
+
+            // Fill each cell in the grid with a random number between min and max
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    grid[i][j] = Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+            }
+
+            return grid;
+        }
+
+        // Generate the grid and insert it into the HTML table
+        function updateGrid() {
+            const min = parseInt(document.getElementById("min-value").value);
+            const max = parseInt(document.getElementById("max-value").value);
+
+            if (min > max) {
+                alert("Min value cannot be greater than Max value");
+                return;
+            }
+
+            const grid = generateGrid(min, max);
+            const table = document.getElementById("number-grid");
+            table.innerHTML = ""; // Clear the table
+
+            for (let i = 0; i < 4; i++) {
+                const tr = document.createElement("tr");
+                for (let j = 0; j < 4; j++) {
+                    const td = document.createElement("td");
+                    td.textContent = grid[i][j];
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+        }
+
+        // Add event listeners to update the grid when the dropdown values change
+        document.getElementById("min-value").addEventListener("change", updateGrid);
+        document.getElementById("max-value").addEventListener("change", updateGrid);
+
+        // Initial grid generation
+        updateGrid();
+    </script>
 </body>
 
 </html>
