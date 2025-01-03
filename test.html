@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Random Number Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Grid</title>
     <style>
         @font-face {
             font-family: "Rhythm";
@@ -30,7 +31,7 @@
         }
 
         button {
-            margin-left: 100px;
+            margin-left: 600px;
         }
     </style>
 
@@ -39,18 +40,40 @@
 <body>
     <h1>Random Number Generator</h1>
     <p><button onclick="location.reload()">Restart</button></p>
-    <table id="number-grid"></table>
+    <label for="min-value">Min Value:</label>
+    <select id="min-value">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+    </select>
+
+    <label for="max-value">Max Value:</label>
+    <select id="max-value">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8" selected>8</option>
+    </select>
+
+    <table id="number-grid" border="0"></table>
 
     <script>
-        // Function to generate a 4x4 grid of random numbers between 1 and 8
-        function generateGrid() {
-            // Create a 2D array to store the grid values
+        function generateGrid(min, max) {
             const grid = Array.from({ length: 4 }, () => Array(4).fill(0));
 
-            // Fill each cell in the grid with a random number between 1 and 8
+            // Fill each cell in the grid with a random number between min and max
             for (let i = 0; i < 4; i++) {
                 for (let j = 0; j < 4; j++) {
-                    grid[i][j] = Math.floor(Math.random() * 8) + 1;
+                    grid[i][j] = Math.floor(Math.random() * (max - min + 1)) + min;
                 }
             }
 
@@ -58,17 +81,36 @@
         }
 
         // Generate the grid and insert it into the HTML table
-        const grid = generateGrid();
-        const table = document.getElementById("number-grid");
-        for (let i = 0; i < 4; i++) {
-            const tr = document.createElement("tr");
-            for (let j = 0; j < 4; j++) {
-                const td = document.createElement("td");
-                td.textContent = grid[i][j];
-                tr.appendChild(td);
+        function updateGrid() {
+            const min = parseInt(document.getElementById("min-value").value);
+            const max = parseInt(document.getElementById("max-value").value);
+
+            if (min > max) {
+                alert("Min value cannot be greater than Max value");
+                return;
             }
-            table.appendChild(tr);
+
+            const grid = generateGrid(min, max);
+            const table = document.getElementById("number-grid");
+            table.innerHTML = ""; // Clear the table
+
+            for (let i = 0; i < 4; i++) {
+                const tr = document.createElement("tr");
+                for (let j = 0; j < 4; j++) {
+                    const td = document.createElement("td");
+                    td.textContent = grid[i][j];
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
         }
+
+        // Add event listeners to update the grid when the dropdown values change
+        document.getElementById("min-value").addEventListener("change", updateGrid);
+        document.getElementById("max-value").addEventListener("change", updateGrid);
+
+        // Initial grid generation
+        updateGrid();
     </script>
 </body>
 
